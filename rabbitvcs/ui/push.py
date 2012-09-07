@@ -62,6 +62,22 @@ class Push(InterfaceView):
     def on_ok_clicked(self, widget, data=None):
         pass
 
+    def on_key_pressed(self, widget, data):
+        if (data.keyval == gtk.keysyms.Escape):
+            self.on_cancel_clicked(widget)
+            return True
+            
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
+            self.on_cancel_clicked(widget)
+            return True
+
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
+            self.on_cancel_clicked(widget)
+            return True  
+
+             
 class GitPush(Push):
     def __init__(self, path):
         Push.__init__(self, path)
