@@ -46,6 +46,8 @@ _ = gettext.gettext
 DATETIME_FORMAT = rabbitvcs.util.helper.LOCAL_DATETIME_FORMAT
 
 REVISION_LABEL = _("Revision")
+DATE_LABEL = _("Date")
+AUTHOR_LABEL = _("Author")
 
 def revision_grapher(history):
     """
@@ -544,10 +546,11 @@ class SVNLog(Log):
         for selected_row in self.revisions_table.get_selected_rows():
             item = self.revision_items[selected_row]
             
-            indented_message = item.message.replace("\n","\n\t")
-            text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
-                                    unicode(item.revision),
-                                    indented_message)
+            text += "%s: %s\n" % (REVISION_LABEL, unicode(item.revision))
+            text += "%s: %s\n" % (AUTHOR_LABEL, unicode(item.author))
+            text += "%s: %s\n" % (DATE_LABEL, unicode(item.date))
+            text += "%s\n\n" % item.message
+
         self.revision_clipboard.set_text(text)
 
     def update_revision_message(self):
@@ -760,11 +763,11 @@ class GitLog(Log):
         for selected_row in self.revisions_table.get_selected_rows():
             item = self.revision_items[selected_row]
 
-            indented_message = item.message.replace("\n","\n\t")
-            text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
-                                    item.revision.short(),
-                                    indented_message)
-
+            text += "%s: %s\n" % (REVISION_LABEL, unicode(item.revision.short()))
+            text += "%s: %s\n" % (AUTHOR_LABEL, unicode(item.author))
+            text += "%s: %s\n" % (DATE_LABEL, unicode(item.date))
+            text += "%s\n\n" % item.message
+            
         self.revision_clipboard.set_text(text)
 
     def update_revision_message(self):
