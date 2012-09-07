@@ -112,7 +112,23 @@ class GitIgnore(InterfaceView):
     
     def on_ok_clicked(self, widget, data=None):
         self.file_editor.save()
-        self.close()       
+        self.close()
+        
+    def on_key_pressed(self, widget, data):
+        if (data.keyval == gtk.keysyms.Escape):
+            self.on_cancel_clicked(widget)
+            return True
+            
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
+            self.on_cancel_clicked(widget)
+            return True
+
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
+            self.on_cancel_clicked(widget)
+            return True   
+
 
 classes_map = {
     rabbitvcs.vcs.VCS_SVN: SVNIgnore,
