@@ -544,13 +544,10 @@ class SVNLog(Log):
         for selected_row in self.revisions_table.get_selected_rows():
             item = self.revision_items[selected_row]
             
-            if len(self.revisions_table.get_selected_rows()) == 1:
-                text = item.message
-            else:
-                indented_message = item.message.replace("\n","\n\t")
-                text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
-                                        unicode(item.revision),
-                                        indented_message)
+            indented_message = item.message.replace("\n","\n\t")
+            text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
+                                    unicode(item.revision),
+                                    indented_message)
         self.revision_clipboard.set_text(text)
 
     def update_revision_message(self):
@@ -763,13 +760,11 @@ class GitLog(Log):
         for selected_row in self.revisions_table.get_selected_rows():
             item = self.revision_items[selected_row]
 
-            if len(self.revisions_table.get_selected_rows()) == 1:
-                text = item.message
-            else:
-                indented_message = item.message.replace("\n","\n\t")
-                text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
-                                        item.revision.short(),
-                                        indented_message)
+            indented_message = item.message.replace("\n","\n\t")
+            text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
+                                    item.revision.short(),
+                                    indented_message)
+
         self.revision_clipboard.set_text(text)
 
     def update_revision_message(self):
