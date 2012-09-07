@@ -936,6 +936,11 @@ class MenuUpdateToThisRevision(MenuItem):
     tooltip = _("Update the selected path to this revision")
     icon = "rabbitvcs-update"
 
+class MenuCopyClipboard(MenuItem):
+    identifier = "RabbitVCS::Copy_Clipboard"
+    label = _("Copy to clipboard")
+    tooltip = _("Copy to clipboard the full data of these revisions")
+
 class MenuEditAuthor(MenuItem):
     identifier = "RabbitVCS::Edit_Author"
     label = _("Edit author...")
@@ -967,6 +972,9 @@ class LogTopContextMenuConditions:
         
     def view_diff_working_copy(self, data=None):
         return (self.vcs.is_in_a_or_a_working_copy(self.path) and len(self.revisions) == 1)
+
+    def copy_clipboard(self, data=None):
+        return (len(self.revisions) > 0)
 
     def view_diff_previous_revision(self, data=None):
         item = self.revisions[0]["revision"]
@@ -1045,6 +1053,9 @@ class LogTopContextMenuCallbacks:
             "%s@%s" % (self.path, unicode(self.revisions[0]["revision"])),
             "--vcs=%s" % self.caller.get_vcs_name()
         ])
+
+    def copy_clipboard(self, widget, data=None):
+        self.caller.copy_revision_text()
 
     def view_diff_previous_revision(self, widget, data=None):
         if ("parents" in self.revisions[0]) and len(self.revisions[0]["parents"]) > 0:
@@ -1280,7 +1291,7 @@ class LogTopContextMenu:
         # The first element of each tuple is a key that matches a
         # ContextMenuItems item.  The second element is either None when there
         # is no submenu, or a recursive list of tuples for desired submenus.
-        self.structure = [
+        self.structure = [      
             (MenuViewDiffWorkingCopy, None),
             (MenuViewDiffPreviousRevision, None),
             (MenuViewDiffRevisions, None),
@@ -1289,6 +1300,8 @@ class LogTopContextMenu:
             (MenuCompareRevisions, None),
             (MenuShowChangesPreviousRevision, None),
             (MenuShowChangesRevisions, None),
+            (MenuSeparator, None),
+            (MenuCopyClipboard, None),
             (MenuSeparator, None),
             (MenuUpdateToThisRevision, None),
             (MenuCheckout, None),
