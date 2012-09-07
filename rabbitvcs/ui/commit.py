@@ -179,7 +179,9 @@ class Commit(InterfaceView, GtkContextMenuCaller):
     #
     # Event handlers
     #
-    
+    def on_refresh_clicked(self, widget):
+        self.initialize_items()        
+
     def on_destroy(self, widget):
         self.destroy()
         
@@ -333,9 +335,6 @@ class SVNCommit(Commit):
     def on_files_table_toggle_event(self, row, col):
         # Adds path: True/False to the dict
         self.changes[row[1]] = row[col]
-
-    def on_refresh_clicked(self, widget):
-        self.initialize_items()      
 
 class GitCommit(Commit):
     def __init__(self, paths, base_dir=None, message=None):
