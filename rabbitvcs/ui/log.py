@@ -139,6 +139,7 @@ class Log(InterfaceView):
         )
 
         self.stop_on_copy = False
+        self.revision_clipboard = gtk.Clipboard()
 
     #
     # UI Signal Callback Methods
@@ -168,7 +169,12 @@ class Log(InterfaceView):
         if (data.state & gtk.gdk.CONTROL_MASK and 
                 gtk.gdk.keyval_name(data.keyval).lower() == "q"):
             self.on_close_clicked(widget)
-            return True            
+            return True  
+
+        if (data.state & gtk.gdk.CONTROL_MASK and
+            gtk.gdk.keyval_name(data.keyval).lower() == "c"):
+            if len(self.revisions_table.get_selected_rows()) > 0:
+                self.copy_revision_text()
 
     def on_stop_on_copy_toggled(self, widget):
         self.stop_on_copy = self.get_widget("stop_on_copy").get_active()
@@ -533,6 +539,20 @@ class SVNLog(Log):
         self.revision_items[index].author = val
         self.revisions_table.set_row_item(index, 1, val)
 
+    def copy_revision_text(self):
+        text = "" 
+        for selected_row in self.revisions_table.get_selected_rows():
+            item = self.revision_items[selected_row]
+            
+            if len(self.revisions_table.get_selected_rows()) == 1:
+                text = item.message
+            else:
+                indented_message = item.message.replace("\n","\n\t")
+                text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
+                                        unicode(item.revision),
+                                        indented_message)
+        self.revision_clipboard.set_text(text)
+
     def update_revision_message(self):
         combined_paths = []
         subitems = []
@@ -737,6 +757,20 @@ class GitLog(Log):
         )
         self.action.append(self.refresh)
         self.action.start()
+
+    def copy_revision_text(self):
+        text = ""
+        for selected_row in self.revisions_table.get_selected_rows():
+            item = self.revision_items[selected_row]
+
+            if len(self.revisions_table.get_selected_rows()) == 1:
+                text = item.message
+            else:
+                indented_message = item.message.replace("\n","\n\t")
+                text += "%s %s:\n\t%s\n" % (REVISION_LABEL,
+                                        item.revision.short(),
+                                        indented_message)
+        self.revision_clipboard.set_text(text)
 
     def update_revision_message(self):
         combined_paths = []
