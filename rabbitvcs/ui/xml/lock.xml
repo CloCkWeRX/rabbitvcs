@@ -178,7 +178,7 @@
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="draw_indicator">True</property>
-                            <signal handler="on_steal_locks_toggled" name="toggled"/>
+                            <!--<signal handler="on_steal_locks_toggled" name="toggled"/>-->
                           </object>
                           <packing>
                             <property name="expand">False</property>
