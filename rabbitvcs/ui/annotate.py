@@ -88,7 +88,22 @@ class Annotate(InterfaceView):
     def on_to_log_closed(self, data):
         if data is not None:
             self.get_widget("to").set_text(data)
-    
+
+    def on_key_pressed(self, widget, data):
+        if (data.keyval == gtk.keysyms.Escape):
+            self.on_close_clicked(widget)
+            return True
+            
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
+            self.on_close_clicked(widget)
+            return True
+
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
+            self.on_close_clicked(widget)
+            return True
+
     @gtk_unsafe
     def enable_saveas(self):
         self.get_widget("save").set_sensitive(True)
