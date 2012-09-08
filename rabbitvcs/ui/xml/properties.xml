@@ -2,7 +2,7 @@
 <!--Generated with glade3 3.4.1 on Thu Oct 15 09:51:29 2009 -->
 <interface>
   <object class="GtkWindow" id="Properties">
-    <property name="width_request">500</property>
+    <property name="width_request">600</property>
     <property name="visible">True</property>
     <property name="title" translatable="yes">Properties</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
