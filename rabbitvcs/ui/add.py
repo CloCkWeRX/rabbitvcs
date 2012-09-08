@@ -36,6 +36,7 @@ import rabbitvcs.ui.action
 import rabbitvcs.util.helper
 import rabbitvcs.vcs
 from rabbitvcs.util.log import Log
+from rabbitvcs.vcs.status import Status
 
 log = Log("rabbitvcs.ui.add")
 
@@ -63,6 +64,14 @@ class Add(InterfaceView, GtkContextMenuCaller):
         self.last_row_clicked = None
         self.vcs = rabbitvcs.vcs.VCS()
         self.items = []
+        self.show_ignored = False
+
+        # TODO Remove this when there is svn support
+        for path in paths:
+            print path
+            if rabbitvcs.vcs.guess(path)['vcs'] == rabbitvcs.vcs.VCS_SVN:
+                self.get_widget("show_ignored").set_sensitive(False)
+
         self.statuses = self.vcs.statuses_for_add(paths)
         self.files_table = rabbitvcs.ui.widget.Table(
             self.get_widget("files_table"),
@@ -93,6 +102,18 @@ class Add(InterfaceView, GtkContextMenuCaller):
         gtk.gdk.threads_enter()
         self.get_widget("status").set_text(_("Loading..."))
         self.items = self.vcs.get_items(self.paths, self.statuses)
+        
+        if self.show_ignored:
+            for path in paths:
+                # TODO Refactor
+                # TODO SVN support
+                if rabbitvcs.vcs.guess(path)['vcs'] == rabbitvcs.vcs.VCS_GIT:
+                    git = self.vcs.git(path)
+
+                    for ignored_path in git.get_ignore_files(path):
+                        self.items.append(Status(ignored_path, 'unversioned'))
+
+
         self.populate_files_table()
         self.get_widget("status").set_text(_("Found %d item(s)") % len(self.items))
         gtk.gdk.threads_leave()
@@ -105,6 +126,10 @@ class Add(InterfaceView, GtkContextMenuCaller):
                 item.path,
                 rabbitvcs.util.helper.get_file_extension(item.path)
             ])
+
+    def toggle_ignored(self):
+        self.show_ignored = not self.show_ignored
+        self.initialize_items()
 
     # Overrides the GtkContextMenuCaller method
     def on_context_menu_command_finished(self):
@@ -134,6 +159,9 @@ class Add(InterfaceView, GtkContextMenuCaller):
         self.TOGGLE_ALL = not self.TOGGLE_ALL
         for row in self.files_table.get_items():
             row[0] = self.TOGGLE_ALL
+
+    def on_show_ignored_toggled(self, widget):
+        self.toggle_ignored()                  
 
     def on_files_table_row_activated(self, treeview, event, col):
         paths = self.files_table.get_selected_row_items(1)
