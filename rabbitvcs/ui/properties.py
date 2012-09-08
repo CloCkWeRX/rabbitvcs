@@ -76,6 +76,21 @@ class PropertiesBase(InterfaceView):
     def on_cancel_clicked(self, widget):
         self.close()
 
+    def on_key_pressed(self, widget, data):
+        if (data.keyval == gtk.keysyms.Escape):
+            self.on_cancel_clicked(widget)
+            return True
+            
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
+            self.on_cancel_clicked(widget)
+            return True
+
+        if (data.state & gtk.gdk.CONTROL_MASK and 
+                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
+            self.on_cancel_clicked(widget)
+            return True
+
     def on_ok_clicked(self, widget):
         self.save()
         
@@ -92,7 +107,6 @@ class PropertiesBase(InterfaceView):
         if name:
             self.set_selected_name_value(name, value, recurse)
 
-    
     def on_delete_clicked(self, widget, data=None):
         if not self.selected_rows:
             return
