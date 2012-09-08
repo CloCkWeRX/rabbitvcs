@@ -172,7 +172,17 @@ class InterfaceView(GtkBuilderWidgetWrapper):
     
     def gtk_quit_is_set(self):
         return self.do_gtk_quit
-        
+
+    def on_destroy(self, widget):
+        self.destroy()
+
+    def on_cancel_clicked(self, widget):
+        self.close()
+
+
+    def on_close_clicked(self, widget):
+        self.close()        
+
 class InterfaceNonView:
     """
     Provides a way for an interface to handle quitting, etc without having
