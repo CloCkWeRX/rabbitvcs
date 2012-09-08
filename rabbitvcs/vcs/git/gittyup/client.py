@@ -1213,6 +1213,7 @@ class GittyupClient:
                 ignored_directories.append(ignored_path[:-1])
                 next
             statuses.append(IgnoredStatus(ignored_path))
+            self.ignored_paths.append(ignored_path)
             try:
                 del files_hash[ignored_path]
             except Exception, e:
@@ -1232,6 +1233,7 @@ class GittyupClient:
                 statuses.append(UntrackedStatus(file))
             elif ignore_file==True:
                 statuses.append(IgnoredStatus(file))
+                self.ignored_paths.append(file)
             else:
                 statuses.append(NormalStatus(file))
 
@@ -1336,6 +1338,8 @@ class GittyupClient:
             
             if not self._ignore_file(patterns, os.path.basename(name)):
                 statuses.append(UntrackedStatus(name))
+            else:
+                self.ignored_paths.append(name)
 
         # Determine status of folders based on child contents
         for d in directories:
@@ -1350,7 +1354,13 @@ class GittyupClient:
 
         return statuses
 
+    def get_all_ignore_file_paths(self, path):
+        return self.ignored_paths
+
+
     def status(self, path):
+        # TODO - simply get this from the status implementation / avoid global state
+        self.ignored_paths = []
         version = self._get_git_version()
         if version and self._version_greater_than(version, [1,7,-1]):
             return self.status_porcelain(path)

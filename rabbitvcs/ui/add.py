@@ -68,7 +68,6 @@ class Add(InterfaceView, GtkContextMenuCaller):
 
         # TODO Remove this when there is svn support
         for path in paths:
-            print path
             if rabbitvcs.vcs.guess(path)['vcs'] == rabbitvcs.vcs.VCS_SVN:
                 self.get_widget("show_ignored").set_sensitive(False)
 
@@ -107,11 +106,18 @@ class Add(InterfaceView, GtkContextMenuCaller):
             for path in paths:
                 # TODO Refactor
                 # TODO SVN support
+                # TODO Further fix ignore patterns
                 if rabbitvcs.vcs.guess(path)['vcs'] == rabbitvcs.vcs.VCS_GIT:
                     git = self.vcs.git(path)
+                    for ignored_path in git.client.get_all_ignore_file_paths(path):
+                        should_add = True
+                        for item in self.items:
+                            if item.path == os.path.realpath(ignored_path):
+                                should_add = False
 
-                    for ignored_path in git.get_ignore_files(path):
-                        self.items.append(Status(ignored_path, 'unversioned'))
+                        if should_add:
+                            self.items.append(Status(os.path.realpath(ignored_path), 'unversioned'))
+                     
 
 
         self.populate_files_table()
