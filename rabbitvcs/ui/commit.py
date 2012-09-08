@@ -314,14 +314,14 @@ class SVNCommit(Commit):
             self.message.get_text()
         ),
         self.action.append(self.do_commit, items, recurse)
-        self.action.append(self.action.set_status, _("Completed Commit"))
         self.action.append(self.action.finish)
         self.action.start()
 
     def do_commit(self, items, recurse):
+        # pysvn.Revision
         revision = self.vcs.svn().commit(items, self.message.get_text(), recurse=recurse)
-
-        self.action.set_status(_("Completed Commit") + " at Revision: " + revision)
+        
+        self.action.set_status(_("Completed Commit") + " at Revision: " + str(revision.number))
 
     def on_files_table_toggle_event(self, row, col):
         # Adds path: True/False to the dict
@@ -368,7 +368,7 @@ class GitCommit(Commit):
         self.action.append(self.action.set_header, _("Commit"))
         self.action.append(self.action.set_status, _("Running Commit Command..."))
         self.action.append(
-            rabbitvcs.util.helper.save_log_message, 
+            rabbitvcs.util.helper.save_log_message,
             self.message.get_text()
         )
         self.action.append(
@@ -377,7 +377,7 @@ class GitCommit(Commit):
         )
         self.action.append(self.action.set_status, _("Completed Commit"))
         self.action.append(self.action.finish)
-        self.action.start()
+        self.action.start() 
 
     def on_files_table_toggle_event(self, row, col):
         # Adds path: True/False to the dict
