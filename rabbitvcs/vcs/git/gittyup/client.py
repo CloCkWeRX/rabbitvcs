@@ -1231,6 +1231,8 @@ class GittyupClient:
                     break
             if untracked_file==True:
                 statuses.append(UntrackedStatus(file))
+                if ignore_file==True:
+                    self.ignored_paths.append(file)
             elif ignore_file==True:
                 statuses.append(IgnoredStatus(file))
                 self.ignored_paths.append(file)
