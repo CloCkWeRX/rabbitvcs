@@ -311,21 +311,6 @@ class SVNBrowser(InterfaceView, GtkContextMenuCaller):
             self.action.append(rabbitvcs.util.helper.open_item, path)
 
         self.action.start()
-        
-    def on_key_pressed(self, widget, data):
-        if (data.keyval == gtk.keysyms.Escape):
-            self.on_close_clicked(widget)
-            return True
-            
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
-            self.on_close_clicked(widget)
-            return True
-
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
-            self.on_close_clicked(widget)
-            return True
 
 class SVNBrowserDialog(SVNBrowser):
     def __init__(self, path, callback=None):

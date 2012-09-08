@@ -77,20 +77,7 @@ class SVNMerge(InterfaceView):
     def on_test_clicked(self, widget):
         self.merge(test=True)    
 
-    def on_key_pressed(self, widget, data):
-        if (data.keyval == gtk.keysyms.Escape):
-            self.on_cancel_clicked(widget)
-            return True
-            
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
-            self.on_cancel_clicked(widget)
-            return True
-
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
-            self.on_cancel_clicked(widget)
-            return True   
+   
 
     def merge(self, test=False):
         if self.type is None:
@@ -430,20 +417,7 @@ class BranchMerge(InterfaceView):
     def on_cancel_clicked(self, widget, data=None):
         self.close()
 
-    def on_key_pressed(self, widget, data):
-        if (data.keyval == gtk.keysyms.Escape):
-            self.on_cancel_clicked(widget)
-            return True
-            
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
-            self.on_cancel_clicked(widget)
-            return True
-
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
-            self.on_cancel_clicked(widget)
-            return True           
+           
 
 class GitMerge(BranchMerge):
     def __init__(self, path, branch=None):
@@ -566,20 +540,7 @@ class GitMerge(BranchMerge):
     def __revision_changed(self, widget):
         self.update_branch_info()
 
-    def on_key_pressed(self, widget, data):
-        if (data.keyval == gtk.keysyms.Escape):
-            self.on_cancel_clicked(widget)
-            return True
-            
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
-            self.on_cancel_clicked(widget)
-            return True
-
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
-            self.on_cancel_clicked(widget)
-            return True           
+           
 
 if __name__ == "__main__":
     from rabbitvcs.ui import main, VCS_OPT

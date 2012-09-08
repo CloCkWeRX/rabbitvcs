@@ -57,21 +57,6 @@ class SVNSwitch(InterfaceView):
         
         self.repositories.set_child_text(self.svn.get_repo_url(self.path))
 
-    def on_key_pressed(self, widget, data):
-        if (data.keyval == gtk.keysyms.Escape):
-            self.on_cancel_clicked(widget)
-            return True
-            
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "w"):
-            self.on_cancel_clicked(widget)
-            return True
-
-        if (data.state & gtk.gdk.CONTROL_MASK and 
-                gtk.gdk.keyval_name(data.keyval).lower() == "q"):
-            self.on_cancel_clicked(widget)
-            return True
-
     def on_ok_clicked(self, widget):
         url = self.repositories.get_active_text()
         
