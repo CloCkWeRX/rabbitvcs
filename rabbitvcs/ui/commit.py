@@ -259,7 +259,7 @@ class Commit(InterfaceView, GtkContextMenuCaller):
                 item.simple_content_status(),
                 item.simple_metadata_status()
             ])
-        self.get_widget("status").set_text(_("Found %d item(s), displaying %d") % (len(self.items), n))
+        self.get_widget("status").set_text(_("Found %d item(s)") % n)
 
 class SVNCommit(Commit):
     def __init__(self, paths, base_dir=None, message=None):
