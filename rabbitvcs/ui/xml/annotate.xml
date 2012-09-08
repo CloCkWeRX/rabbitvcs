@@ -163,7 +163,7 @@
                                 <child>
                                   <object class="GtkImage" id="image3">
                                     <property name="visible">True</property>
-                                    <property name="icon_name">rabbitvcs-update</property>
+                                    <property name="stock">gtk-refresh</property>
                                   </object>
                                 </child>
                               </object>
