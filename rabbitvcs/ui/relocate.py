@@ -62,12 +62,6 @@ class Relocate(InterfaceView):
             rabbitvcs.util.helper.get_repository_paths()
         )
 
-    def on_destroy(self, widget):
-        self.destroy()
-
-    def on_cancel_clicked(self, widget):
-        self.close()
-
     def on_key_pressed(self, widget, data):
         if (data.keyval == gtk.keysyms.Escape):
             self.on_cancel_clicked(widget)

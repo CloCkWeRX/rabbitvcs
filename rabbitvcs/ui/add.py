@@ -130,12 +130,6 @@ class Add(InterfaceView, GtkContextMenuCaller):
     # UI Signal Callbacks
     #
 
-    def on_destroy(self, widget):
-        self.destroy()
-
-    def on_cancel_clicked(self, widget):
-        self.close()
-
     def on_select_all_toggled(self, widget):
         self.TOGGLE_ALL = not self.TOGGLE_ALL
         for row in self.files_table.get_items():

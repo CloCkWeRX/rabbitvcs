@@ -63,9 +63,7 @@ class Annotate(InterfaceView):
         self.get_widget("Annotate").set_title(_("Annotate - %s") % path)
         self.vcs = rabbitvcs.vcs.VCS()
         
-    def on_destroy(self, widget):
-        self.destroy()
-        
+       
     def on_close_clicked(self, widget):
         self.close()
 

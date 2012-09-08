@@ -182,12 +182,6 @@ class Commit(InterfaceView, GtkContextMenuCaller):
     def on_refresh_clicked(self, widget):
         self.initialize_items()        
 
-    def on_destroy(self, widget):
-        self.destroy()
-        
-    def on_cancel_clicked(self, widget, data=None):
-        self.close()
-        
     def on_key_pressed(self, widget, data):
         if (data.state & (gtk.gdk.SHIFT_MASK | gtk.gdk.CONTROL_MASK) and 
                 gtk.gdk.keyval_name(data.keyval) == "Return"):

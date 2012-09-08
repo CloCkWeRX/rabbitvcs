@@ -45,11 +45,6 @@ class UpdateToRevision(InterfaceView):
         self.revision = revision
         self.vcs = rabbitvcs.vcs.VCS()
 
-    def on_destroy(self, widget):
-        self.destroy()
-
-    def on_cancel_clicked(self, widget):
-        self.close()
 
     def on_key_pressed(self, widget, data):
         if (data.keyval == gtk.keysyms.Escape):

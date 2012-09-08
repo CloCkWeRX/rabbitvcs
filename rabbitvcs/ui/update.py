@@ -77,12 +77,6 @@ class GitUpdate(InterfaceView):
             self.git
         )
 
-    def on_destroy(self, widget):
-        self.destroy()
-        
-    def on_cancel_clicked(self, widget, data=None):
-        self.close()
-
     def on_ok_clicked(self, widget, data=None):
         self.hide()
         merge = self.get_widget("merge").get_active()

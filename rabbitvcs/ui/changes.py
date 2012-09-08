@@ -83,9 +83,6 @@ class Changes(InterfaceView):
     # UI Signal Callback Methods
     #
 
-    def on_destroy(self, widget):
-        self.destroy()
-
     def on_close_clicked(self, widget):
         self.close()
 

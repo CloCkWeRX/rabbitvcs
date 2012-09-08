@@ -55,12 +55,6 @@ class SVNImport(InterfaceView):
             self.get_widget("message")
         )
 
-    def on_destroy(self, widget):
-        self.destroy()
-
-    def on_cancel_clicked(self, widget):
-        self.close()
-
     def on_ok_clicked(self, widget):
         
         url = self.get_widget("repository").get_text()

@@ -85,12 +85,6 @@ class GitBranchManager(InterfaceView):
         else:
             self.show_add()
         
-    def on_destroy(self, widget):
-        self.destroy()
-        
-    def on_close_clicked(self, widget):
-        self.close()
-
     def initialize_detail(self):
         self.detail_container = self.get_widget("detail_container")
 

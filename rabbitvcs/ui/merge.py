@@ -70,16 +70,7 @@ class SVNMerge(InterfaceView):
     #
     # Assistant UI Signal Callbacks
     #
-
-    def on_destroy(self, widget):
-        self.destroy()
     
-    def on_cancel_clicked(self, widget):
-        self.close()
-    
-    def on_close_clicked(self, widget):
-        self.close()
-
     def on_apply_clicked(self, widget):
         self.merge()
     
@@ -435,8 +426,6 @@ class BranchMerge(InterfaceView):
         self.branch = branch
         self.vcs = rabbitvcs.vcs.VCS()
 
-    def on_destroy(self, widget):
-        self.destroy()
         
     def on_cancel_clicked(self, widget, data=None):
         self.close()

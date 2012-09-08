@@ -52,13 +52,7 @@ class Push(InterfaceView):
     #
     # Event handlers
     #
-    
-    def on_destroy(self, widget):
-        self.destroy()
         
-    def on_cancel_clicked(self, widget, data=None):
-        self.close()
-    
     def on_ok_clicked(self, widget, data=None):
         pass
 
