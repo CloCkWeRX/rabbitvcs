@@ -72,6 +72,7 @@ class Commit(InterfaceView, GtkContextMenuCaller):
 
         self.base_dir = base_dir
         self.vcs = rabbitvcs.vcs.VCS()
+        self.items = []
 
         self.files_table = rabbitvcs.ui.widget.Table(
             self.get_widget("files_table"),
@@ -99,7 +100,7 @@ class Commit(InterfaceView, GtkContextMenuCaller):
             }
         )
         self.files_table.allow_multiple()
-
+        self.get_widget("toggle_show_unversioned").set_active(not self.SHOW_UNVERSIONED)
         self.message = rabbitvcs.ui.widget.TextView(
             self.get_widget("message"),
             (message and message or "")
