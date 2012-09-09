@@ -485,7 +485,7 @@ class ChangesContextMenuCallbacks:
         rabbitvcs.util.helper.launch_ui_window("open", [
             "--vcs=%s" % self.caller.get_vcs_name(),
             url,
-            "-r %s" % unicode(rev)            
+            "-r%s" % unicode(rev)            
         ])
 
     def open_second(self, widget, data=None):
@@ -498,7 +498,7 @@ class ChangesContextMenuCallbacks:
         rabbitvcs.util.helper.launch_ui_window("open", [
             "--vcs=%s" % self.caller.get_vcs_name(),
             url,
-            "-r %s" % unicode(rev)            
+            "-r%s" % unicode(rev)            
         ])
 
     def view_diff(self, widget, data=None):
