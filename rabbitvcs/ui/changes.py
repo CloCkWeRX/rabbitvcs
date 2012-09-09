@@ -276,8 +276,11 @@ class SVNChanges(Changes):
                 gobject.TYPE_STRING], 
             [_("Path"), _("Change"), _("Property Change")],
             flags={
-                "sortable": True, 
+                "sortable": True,
                 "sort_on": 1
+            },
+            callbacks={
+                "mouse-event":   self.on_changes_table_button_released
             }
         )
 
