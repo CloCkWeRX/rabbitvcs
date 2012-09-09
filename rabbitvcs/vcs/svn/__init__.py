@@ -24,6 +24,8 @@
 Concrete VCS implementation for Subversion functionality.
 """
 import subprocess
+import os
+import shutil
 import os.path
 from os.path import isdir, isfile, dirname, islink, realpath
 from datetime import datetime
@@ -1188,7 +1190,9 @@ class SVN:
         @param  recurse: Whether or not to run a recursive checkout.
 
         """
-        
+        if os.path.exists(dest_path):
+            shutil.rmtree(dest_path)
+
         return self.client.export(src_url_or_path, dest_path, force,
             revision.primitive(), native_eol, ignore_externals, recurse)
 
