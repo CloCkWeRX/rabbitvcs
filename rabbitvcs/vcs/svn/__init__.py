@@ -68,7 +68,8 @@ class Revision:
         self.value = value
         self.is_revision_object = True
 
-        if self.kind == "number" and self.value == 'head':
+        # TODO Shift to options factory?
+        if self.value and str(self.value).lower().strip() == 'head':
             self.kind = "head"
 
         if self.value is None and self.kind in ("number", "date"):
