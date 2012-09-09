@@ -481,7 +481,12 @@ class ChangesContextMenuCallbacks:
 
         url = rabbitvcs.util.helper.url_join(self.caller.first_urls.get_active_text(), path)
         rev = self.caller.get_first_revision()
-        rabbitvcs.util.helper.launch_ui_window("open", [url, "-r", unicode(rev)])        
+
+        rabbitvcs.util.helper.launch_ui_window("open", [
+            "--vcs=%s" % self.caller.get_vcs_name(),
+            url,
+            "-r %s" % unicode(rev)            
+        ])
 
     def open_second(self, widget, data=None):
         path = self.caller.changes_table.get_row(self.caller.selected_rows[0])[0]
@@ -490,7 +495,11 @@ class ChangesContextMenuCallbacks:
 
         url = rabbitvcs.util.helper.url_join(self.caller.second_urls.get_active_text(), path)
         rev = self.caller.get_second_revision()
-        rabbitvcs.util.helper.launch_ui_window("open", [url, "-r", unicode(rev)])
+        rabbitvcs.util.helper.launch_ui_window("open", [
+            "--vcs=%s" % self.caller.get_vcs_name(),
+            url,
+            "-r %s" % unicode(rev)            
+        ])
 
     def view_diff(self, widget, data=None):
         self.caller.view_selected_diff()
