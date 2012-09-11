@@ -16,14 +16,14 @@ Depends: ${misc:Depends},
          ${python:Depends},
          python-gtk2 (>= 2.12.1),
          python-gobject (>= 2.14.1),
-         python-svn (>= 1.5.2),
+         python-svn (>= 1.7.2),
          python-dbus (>= 0.82.4),
          python-configobj (>= 4.4.0),
          subversion (>= 1.4.6),
          meld (>=1.1.2), 
          ipython (>=0.7.1),
          hicolor-icon-theme (>= 0.10-2),
-         python-dulwich
+         python-dulwich (>= 0.6.1)
 Conflicts: nautilussvn, rabbitvcs
 Replaces: nautilussvn
 Description: Easy version control

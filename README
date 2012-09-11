@@ -20,11 +20,11 @@ For spell checking of commit messages:
     python-gtkspell
 
 For subversion:
-    python-svn >= 1.5.2
+    python-svn >= 1.7.2
     subversion >= 1.4.6
 
 For git:
-    dulwich >= 0.6
+    dulwich >= 0.6.1
     git
 
 Recommends:
