@@ -458,6 +458,9 @@ class SVNLog(Log):
         self.set_start_revision(self.rev_start)
         self.set_end_revision(self.rev_end)
 
+        self.check_previous_sensitive()
+        self.check_next_sensitive()
+
         for item in self.display_items:
             msg = cgi.escape(rabbitvcs.util.helper.format_long_text(item.message, 80))
 
@@ -468,10 +471,9 @@ class SVNLog(Log):
             if self.stop_on_copy:
                 for path in item.changed_paths:
                     if path.copy_from_path or path.copy_from_revision:
+                        self.set_loading(False)
                         return
-            
-        self.check_previous_sensitive()
-        self.check_next_sensitive()
+
         self.set_loading(False)
 
     def populate_table(self, revision, author, date, msg):
@@ -546,7 +548,11 @@ class SVNLog(Log):
             text += "%s: %s\n" % (REVISION_LABEL, unicode(item.revision))
             text += "%s: %s\n" % (AUTHOR_LABEL, unicode(item.author))
             text += "%s: %s\n" % (DATE_LABEL, unicode(item.date))
+<<<<<<< HEAD
             text += "%s\n\n"     % item.message
+=======
+            text += "%s\n\n"   % item.message
+>>>>>>> 73d4d599945071710ade06ea49c9ad6327e108ac
             if item.changed_paths is not None:
                 for subitem in item.changed_paths:
                     text += "%s\t%s" % (subitem.action, subitem.path)
@@ -557,7 +563,10 @@ class SVNLog(Log):
                     text += "\n"
 
             text += "\n\n\n"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 73d4d599945071710ade06ea49c9ad6327e108ac
 
         self.revision_clipboard.set_text(text)
 
@@ -618,7 +627,7 @@ class SVNLog(Log):
         sensitive = True
         if self.rev_end == 1:
             sensitive = False
-        if len(self.revision_items) <= self.limit:
+        if len(self.revision_items) < self.limit:
             sensitive = False
 
         self.get_widget("next").set_sensitive(sensitive)
@@ -827,7 +836,7 @@ class GitLog(Log):
 
     def check_next_sensitive(self):
         sensitive = True
-        if len(self.revision_items) <= self.limit:
+        if len(self.revision_items) < self.limit:
             sensitive = False
 
         self.get_widget("next").set_sensitive(sensitive)
@@ -944,6 +953,12 @@ class MenuUpdateToThisRevision(MenuItem):
     tooltip = _("Update the selected path to this revision")
     icon = "rabbitvcs-update"
 
+class MenuRevertChangesFromThisRevision(MenuItem):
+    identifier = "RabbitVCS::Revert_Changes_From_This_Revision"
+    label = _("Revert changes from this revision")
+    tooltip = _("Update the selected path by reverse merging the changes")
+    icon = "rabbitvcs-revert"    
+
 class MenuCopyClipboard(MenuItem):
     identifier = "RabbitVCS::Copy_Clipboard"
     label = _("Copy to clipboard")
@@ -1009,6 +1024,11 @@ class LogTopContextMenuConditions:
         return (len(self.revisions) > 1)
 
     def update_to_this_revision(self, data=None):
+        return (self.vcs_name == rabbitvcs.vcs.VCS_SVN and len(self.revisions) == 1)
+
+    # TODO Evaluate multiple revisions later
+    # TODO Git?
+    def revert_changes_from_this_revision(self, data=None):
         return (self.vcs_name == rabbitvcs.vcs.VCS_SVN and len(self.revisions) == 1)
 
     def checkout(self, data=None):
@@ -1162,6 +1182,13 @@ class LogTopContextMenuCallbacks:
             "-r", unicode(self.revisions[0]["revision"]),
             "--vcs=%s" % self.caller.get_vcs_name()
         ])
+
+    def revert_changes_from_this_revision(self, widget, data=None):        
+        rabbitvcs.util.helper.launch_ui_window("merge", [
+            self.path,
+            unicode(self.revisions[0]["revision"]) + "-" + str(int(unicode(self.revisions[0]["revision"])) - 1),
+            "--vcs=%s" % self.caller.get_vcs_name()
+        ])        
         
     def checkout(self, widget, data=None):
         url = ""
@@ -1312,6 +1339,7 @@ class LogTopContextMenu:
             (MenuCopyClipboard, None),
             (MenuSeparator, None),
             (MenuUpdateToThisRevision, None),
+            (MenuRevertChangesFromThisRevision, None),
             (MenuCheckout, None),
             (MenuBranches, None),
             (MenuTags, None),
