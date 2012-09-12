@@ -548,11 +548,7 @@ class SVNLog(Log):
             text += "%s: %s\n" % (REVISION_LABEL, unicode(item.revision))
             text += "%s: %s\n" % (AUTHOR_LABEL, unicode(item.author))
             text += "%s: %s\n" % (DATE_LABEL, unicode(item.date))
-<<<<<<< HEAD
-            text += "%s\n\n"     % item.message
-=======
             text += "%s\n\n"   % item.message
->>>>>>> 73d4d599945071710ade06ea49c9ad6327e108ac
             if item.changed_paths is not None:
                 for subitem in item.changed_paths:
                     text += "%s\t%s" % (subitem.action, subitem.path)
@@ -563,10 +559,6 @@ class SVNLog(Log):
                     text += "\n"
 
             text += "\n\n\n"
-<<<<<<< HEAD
-
-=======
->>>>>>> 73d4d599945071710ade06ea49c9ad6327e108ac
 
         self.revision_clipboard.set_text(text)
 
