@@ -1067,6 +1067,16 @@ class LogTopContextMenuCallbacks:
         self.revisions = revisions
 
         self.vcs_name = self.caller.get_vcs_name()
+
+    def find_parent(self, revision):
+        if ("parents" in revision) and len(revision["parents"]) > 0:
+            parent = unicode(revision["parents"][0])
+        elif ("next_revision" in revision):
+            parent = unicode(revision["next_revision"])
+        else:
+            parent = unicode(int(unicode(revision["revision"])) - 1)
+
+        return parent
         
     def view_diff_working_copy(self, widget, data=None):
         rabbitvcs.util.helper.launch_ui_window("diff", [
@@ -1078,10 +1088,7 @@ class LogTopContextMenuCallbacks:
         self.caller.copy_revision_text()
 
     def view_diff_previous_revision(self, widget, data=None):
-        if ("parents" in self.revisions[0]) and len(self.revisions[0]["parents"]) > 0:
-            parent = unicode(self.revisions[0]["parents"][0])
-        else:
-            parent = unicode(self.revisions[0]["next_revision"])
+        parent = self.find_parent(self.revisions[0])
 
         rabbitvcs.util.helper.launch_ui_window("diff", [
             "%s@%s" % (self.path, parent),
@@ -1113,10 +1120,7 @@ class LogTopContextMenuCallbacks:
         ])
 
     def compare_previous_revision(self, widget, data=None):
-        if ("parents" in self.revisions[0]) and len(self.revisions[0]["parents"]) > 0:
-            parent = unicode(self.revisions[0]["parents"][0])
-        else:
-            parent = unicode(self.revisions[0]["next_revision"])
+        parent = self.find_parent(self.revisions[0])
 
         rabbitvcs.util.helper.launch_ui_window("diff", [
             "-s",
@@ -1139,10 +1143,7 @@ class LogTopContextMenuCallbacks:
 
     def show_changes_previous_revision(self, widget, data=None):
         rev_first = unicode(self.revisions[0]["revision"])
-        if ("parents" in self.revisions[0]) and len(self.revisions[0]["parents"]) > 0:
-            parent = unicode(self.revisions[0]["parents"][0])
-        else:
-            parent = unicode(self.revisions[0]["next_revision"])
+        parent = self.find_parent(self.revisions[0])
         
         path = self.path
         if self.vcs_name == rabbitvcs.vcs.VCS_SVN:
@@ -1406,13 +1407,20 @@ class LogBottomContextMenuCallbacks:
         self.paths = paths
         self.revisions = revisions
 
+    def find_parent(self, revision):
+        if ("parents" in revision) and len(revision["parents"]) > 0:
+            parent = unicode(revision["parents"][0])
+        elif ("next_revision" in revision):
+            parent = unicode(revision["next_revision"])
+        else:
+            parent = unicode(int(unicode(revision["revision"])) - 1)
+
+        return parent
+
     def view_diff_previous_revision(self, widget, data=None):
         rev = unicode(self.revisions[0]["revision"])
 
-        if ("parents" in self.revisions[0]) and len(self.revisions[0]["parents"]) > 0:
-            parent = unicode(self.revisions[0]["parents"][0])
-        else:
-            parent = unicode(self.revisions[0]["next_revision"])
+        parent = self.find_parent(self.revisions[0])
 
         path_item = self.paths[0]
         url = self.caller.root_url + path_item
@@ -1429,10 +1437,7 @@ class LogBottomContextMenuCallbacks:
     def compare_previous_revision(self, widget, data=None):
         rev = unicode(self.revisions[0]["revision"])
         
-        if ("parents" in self.revisions[0]) and len(self.revisions[0]["parents"]) > 0:
-            parent = unicode(self.revisions[0]["parents"][0])
-        else:
-            parent = unicode(self.revisions[0]["next_revision"])
+        parent = self.find_parent(self.revisions[0])
             
         path_item = self.paths[0]
         url = self.caller.root_url + path_item
@@ -1451,10 +1456,7 @@ class LogBottomContextMenuCallbacks:
     def show_changes_previous_revision(self, widget, data=None):
         rev_first = unicode(self.revisions[0]["revision"])
         
-        if ("parents" in self.revisions[0]) and len(self.revisions[0]["parents"]) > 0:
-            parent = unicode(self.revisions[0]["parents"][0])
-        else:
-            parent = unicode(self.revisions[0]["next_revision"])
+        parent = self.find_parent(self.revisions[0])
 
         url = self.paths[0]
         if self.vcs_name == rabbitvcs.vcs.VCS_SVN:

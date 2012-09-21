@@ -23,7 +23,8 @@ Depends: ${misc:Depends},
          meld (>=1.1.2), 
          ipython (>=0.7.1),
          hicolor-icon-theme (>= 0.10-2),
-         python-dulwich (>= 0.6.1)
+         python-dulwich (>= 0.6.1),
+         python-simplejson (>= 2.1.1)
 Conflicts: nautilussvn, rabbitvcs
 Replaces: nautilussvn
 Description: Easy version control
@@ -45,12 +46,22 @@ Description: Command line interface for RabbitVCS
 Package: rabbitvcs-gedit
 Architecture: all
 Depends: ${misc:Depends},
-         gedit,
+         gedit (<< 3.0),
          rabbitvcs-core (>= 0.15)
 Description: Gedit extension for RabbitVCS
  RabbitVCS is a set of graphical tools written to provide simple and
  straightforward access to the version control systems SVN (Subversion) and Git.
- This is the extension for gedit text editor.
+ This is the extension for gedit (v2) text editor.
+
+Package: rabbitvcs-gedit3
+Architecture: all
+Depends: ${misc:Depends},
+         gedit (>= 3.0),
+         rabbitvcs-core (>= 0.15)
+Description: Gedit extension for RabbitVCS
+ RabbitVCS is a set of graphical tools written to provide simple and
+ straightforward access to the version control systems SVN (Subversion) and Git.
+ This is the extension for gedit (v3) text editor.
 
 Package: rabbitvcs-nautilus
 Architecture: all
