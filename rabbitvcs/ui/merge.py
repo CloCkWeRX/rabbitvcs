@@ -79,7 +79,7 @@ class SVNMerge(InterfaceView):
         )
         
         self.root_url = action.run_single(
-            self.svn.get_repo_root_url,
+            self.svn.get_repo_url,
             self.path
         )
 
@@ -133,9 +133,13 @@ class SVNMerge(InterfaceView):
             ranges = []
             for r in revisions.split(","):
                 if r.find("-") != -1:
-                    (low, high) = r.split("-")
+                    (low, high) = [ int(i) for i in r.split("-") ]
+                    if low < high:
+                        low -= 1
                 elif r.find(":") != -1:
-                    (low, high) = r.split(":")
+                    (low, high) = [ int(i) for i in r.split(":") ]
+                    if low < high:
+                        low -= 1
                 else:
                     high = int(r)
                     low = high - 1
@@ -145,14 +149,14 @@ class SVNMerge(InterfaceView):
                 # Fixed in Pysvn Revision 1114
                 if (self.svn.interface == "pysvn" and self.svn.is_version_less_than((1,6,3,0))):
                     ranges.append((
-                        self.svn.revision("number", number=int(low)).primitive(),
-                        self.svn.revision("number", number=int(high)).primitive(),
+                        self.svn.revision("number", number=low).primitive(),
+                        self.svn.revision("number", number=high).primitive(),
                         None
                     ))
                 else:
                     ranges.append((
-                        self.svn.revision("number", number=int(low)).primitive(),
-                        self.svn.revision("number", number=int(high)).primitive(),
+                        self.svn.revision("number", number=low).primitive(),
+                        self.svn.revision("number", number=high).primitive(),
                     ))
 
             action.append(rabbitvcs.util.helper.save_repository_path, url)
@@ -221,7 +225,8 @@ class SVNMerge(InterfaceView):
                 self.path
             )
             kwargs = {
-                "recurse": recursive
+                "recurse": recursive,
+                "dry_run": test
             }
         
         if len(args) > 0:
